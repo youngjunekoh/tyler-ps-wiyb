@@ -1,6 +1,6 @@
 .header {
-  background-color: var(--color-maroon);
-  border-bottom: 2px solid var(--color-maroon-bright);
+  background-color: var(--color-black);
+  border-bottom: 1px solid #222222;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -37,7 +37,7 @@
 .header-logo-wrx {
   font-size: 22px;
   font-weight: 800;
-  color: #ff6b6b;
+  color: var(--color-maroon-bright);
   letter-spacing: -0.5px;
   text-transform: uppercase;
 }

@@ -15,9 +15,9 @@
 
 .search-hero-badge {
   display: inline-block;
-  background: var(--color-maroon);
-  border: 1px solid var(--color-maroon-bright);
-  color: rgba(255, 255, 255, 0.8);
+  background: #f0f0f0;
+  border: 1px solid #dddddd;
+  color: #555555;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -31,14 +31,14 @@
   font-size: clamp(32px, 5vw, 52px);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--color-white);
+  color: #111111;
   margin-bottom: 16px;
   letter-spacing: -1px;
 }
 
 .search-subtitle {
   font-size: 16px;
-  color: var(--color-gray-300);
+  color: #666666;
   max-width: 560px;
   margin: 0 auto 40px;
   line-height: 1.7;
@@ -69,22 +69,22 @@
 .search-input {
   width: 100%;
   padding: 14px 16px 14px 48px;
-  background: var(--color-gray-800);
-  border: 1px solid var(--color-gray-600);
+  background: #ffffff;
+  border: 1px solid #cccccc;
   border-radius: 8px;
-  color: var(--color-white);
+  color: #111111;
   font-size: 15px;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .search-input::placeholder {
-  color: var(--color-gray-400);
+  color: #aaaaaa;
 }
 
 .search-input:focus {
-  border-color: var(--color-maroon-bright);
-  box-shadow: 0 0 0 3px rgba(53, 0, 10, 0.4);
+  border-color: #999999;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
 
 .search-input:disabled {
@@ -143,7 +143,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--color-gray-400);
+  color: #888888;
   margin-bottom: 16px;
 }
 
@@ -158,18 +158,19 @@
   align-items: center;
   gap: 14px;
   padding: 14px 16px;
-  background: var(--color-gray-800);
-  border: 1px solid var(--color-gray-600);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   text-align: left;
-  color: var(--color-white);
-  transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
+  color: #111111;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s;
   cursor: pointer;
 }
 
 .suggestion-card:hover:not(:disabled) {
-  background: var(--color-gray-700);
-  border-color: var(--color-maroon-bright);
+  background: #fafafa;
+  border-color: #bbbbbb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transform: translateY(-1px);
 }
 
@@ -201,13 +202,113 @@
 
 .suggestion-text {
   font-size: 13px;
-  color: var(--color-gray-200);
+  color: #333333;
   line-height: 1.4;
 }
 
 .suggestion-arrow {
-  color: var(--color-gray-500);
+  color: #bbbbbb;
   flex-shrink: 0;
+}
+
+/* Recent section */
+.recent-section {
+  padding-top: 36px;
+}
+
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.recent-clear {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #aaaaaa;
+  padding: 2px 0;
+  transition: color 0.15s;
+}
+
+.recent-clear:hover {
+  color: #555555;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.recent-card:hover:not(:disabled) {
+  background: #fafafa;
+  border-color: #cccccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.recent-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.recent-card-icon {
+  width: 30px;
+  height: 30px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+.recent-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.recent-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-card-preview {
+  font-size: 12px;
+  color: #999999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-card-time {
+  font-size: 11px;
+  color: #bbbbbb;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .search-footer {
@@ -215,11 +316,11 @@
   padding-top: 60px;
   text-align: center;
   font-size: 12px;
-  color: var(--color-gray-400);
+  color: #aaaaaa;
 }
 
 .search-footer a {
-  color: var(--color-gray-300);
+  color: #888888;
 }
 
 @media (max-width: 600px) {
