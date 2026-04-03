@@ -4,6 +4,35 @@ import SearchPage from './components/SearchPage.jsx';
 import ConversationPage from './components/ConversationPage.jsx';
 import './App.css';
 
+const HISTORY_KEY = 'golfwrx-history';
+const MAX_HISTORY = 15;
+
+function loadHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function saveToHistory(conversation) {
+  const userMsg = conversation.find(m => m.role === 'user');
+  const assistantMsg = conversation.find(m => m.role === 'assistant' && !m.error);
+  if (!userMsg || !assistantMsg) return;
+
+  const entry = {
+    id: Date.now(),
+    timestamp: Date.now(),
+    title: userMsg.content,
+    preview: assistantMsg.content.replace(/[#*`]/g, '').trim().slice(0, 120),
+    messages: conversation.filter(m => !m.streaming),
+  };
+
+  const history = loadHistory().filter(h => h.title !== entry.title);
+  history.unshift(entry);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+}
+
 export default function App() {
   const [conversation, setConversation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +116,7 @@ export default function App() {
                   sources,
                   streaming: false,
                 };
+                saveToHistory(updated);
                 return updated;
               });
             } else if (data.type === 'error') {
@@ -122,6 +152,10 @@ export default function App() {
     setStatusMessage('');
   }
 
+  function resumeConversation(messages) {
+    setConversation(messages);
+  }
+
   const hasConversation = conversation.length > 0;
 
   return (
@@ -129,7 +163,7 @@ export default function App() {
       <Header onLogoClick={resetConversation} />
       <main className="main">
         {!hasConversation ? (
-          <SearchPage onAsk={askQuestion} isLoading={isLoading} />
+          <SearchPage onAsk={askQuestion} isLoading={isLoading} onResume={resumeConversation} />
         ) : (
           <ConversationPage
             conversation={conversation}

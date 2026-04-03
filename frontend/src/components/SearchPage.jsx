@@ -1,5 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './SearchPage.css';
+
+function timeAgo(ts) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
 
 const SUGGESTED_TOPICS = [
   { icon: '🏌️', text: 'Best drivers for high handicappers 2024', category: 'Equipment' },
@@ -12,8 +23,22 @@ const SUGGESTED_TOPICS = [
   { icon: '⚙️', text: 'When to regrip golf clubs and which grips to use', category: 'Maintenance' },
 ];
 
-export default function SearchPage({ onAsk, isLoading }) {
+export default function SearchPage({ onAsk, isLoading, onResume }) {
   const [query, setQuery] = useState('');
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    try {
+      setHistory(JSON.parse(localStorage.getItem('golfwrx-history') || '[]'));
+    } catch {
+      setHistory([]);
+    }
+  }, []);
+
+  function clearHistory() {
+    localStorage.removeItem('golfwrx-history');
+    setHistory([]);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -98,6 +123,38 @@ export default function SearchPage({ onAsk, isLoading }) {
           ))}
         </div>
       </div>
+
+      {history.length > 0 && (
+        <div className="recent-section">
+          <div className="recent-header">
+            <h2 className="suggestions-title">Recent</h2>
+            <button className="recent-clear" onClick={clearHistory}>Clear</button>
+          </div>
+          <div className="recent-list">
+            {history.map(entry => (
+              <button
+                key={entry.id}
+                className="recent-card"
+                onClick={() => onResume(entry.messages)}
+                disabled={isLoading}
+              >
+                <div className="recent-card-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </div>
+                <div className="recent-card-content">
+                  <span className="recent-card-title">{entry.title}</span>
+                  {entry.preview && (
+                    <span className="recent-card-preview">{entry.preview}…</span>
+                  )}
+                </div>
+                <span className="recent-card-time">{timeAgo(entry.timestamp)}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <footer className="search-footer">
         <p>
